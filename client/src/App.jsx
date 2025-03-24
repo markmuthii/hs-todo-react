@@ -4,9 +4,10 @@ import { useState } from "react";
 const App = () => {
   // State to manage the count value
   const [count, setCount] = useState(0);
+  // let count = 7;
 
   // Array of tasks with their statuses
-  const tasks = [
+  const todos = [
     {
       task: "Go to the movies",
       status: "complete", // Task is completed
@@ -22,16 +23,43 @@ const App = () => {
   ];
 
   // Filter tasks to get only the pending ones
-  const pendingTasks = tasks.filter((todo) => todo.status === "pending");
+  const pendingTodos = todos.filter((todo) => todo.status === "pending");
 
   // Filter tasks to get only the completed ones
-  const completeTasks = tasks.filter((todo) => todo.status === "complete");
+  const completeTodos = todos.filter((todo) => todo.status === "complete");
 
   // Function to handle form submission
   const handleFormSubmission = (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
 
-    console.log(e.target[0].value); // Logs the value of the input field
+    const inputValue = e.target[0].value; // Gets the value of the input field
+
+    // Validate the input
+    if (!inputValue.trim()) {
+      // Show an error
+      console.log("Input is empty");
+
+      return;
+    }
+
+    // Create a todo object using the inputValue
+    const todo = {
+      task: inputValue,
+      status: "pending",
+    };
+
+    // Add the todo object to the todos array
+    todos.push(todo);
+
+    console.log(todos);
+
+    // Assignment:
+
+    // Make the new tasks appear on the page under the pending tasks
+
+    // Clear the input field
+
+    // If you feel super ambitious, you can add the functionality to change the status of a todo from pending to complete
   };
 
   return (
@@ -42,6 +70,8 @@ const App = () => {
         <button
           onClick={() => {
             setCount(count + 1); // Increment the count state
+
+            // count = count + 1;
             console.log("Button clicked"); // Log button click
             console.log({ count }); // Log the current count value
           }}
@@ -77,7 +107,7 @@ const App = () => {
           <h2 className="text-xl text-center mb-2">Pending Tasks</h2>
           <ol className="list-decimal space-y-1">
             {/* Map over the pending tasks and render them in a list */}
-            {pendingTasks.map((todo, i) => {
+            {pendingTodos.map((todo, i) => {
               return (
                 <li key={i} className="flex justify-between ">
                   {/* Display task number and name */}
@@ -110,7 +140,7 @@ const App = () => {
           <h2 className="text-xl text-center mb-2">Complete Tasks</h2>
           <ol className="list-decimal pl-4">
             {/* Map over the complete tasks and render them in a list */}
-            {completeTasks.map((todo, i) => {
+            {completeTodos.map((todo, i) => {
               return (
                 // Display completed task
                 <li key={i}>{todo.task}</li>
