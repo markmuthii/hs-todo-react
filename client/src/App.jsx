@@ -47,6 +47,7 @@ const App = () => {
   // If you feel super ambitious, you can add the functionality to change the status of a todo from pending to complete
 
   // Click the button
+  // Change the status of the todo to complete
   const handleButtonClick = (todoId) => {
     console.log(todoId);
 
@@ -63,7 +64,8 @@ const App = () => {
     });
   };
 
-  // Change the status of the todo to complete
+  // Assignment (25/03/25):
+  // Improve the app to use localStorage for data persistence
 
   return (
     <main className="flex h-screen justify-center items-center">
