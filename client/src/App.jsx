@@ -1,9 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Main App component
 const App = () => {
   // Array of tasks with their statuses
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Run the function in the first arg when the value of todos state changes
+  // This effect will run AT LEAST once when the component first renders
+  // It will run again, when the todos state changes
+  // If the todos state never changes, then the function will only ever execute once
+  useEffect(() => {
+    // If it is the first time that the effect is executing, get the todos from localStorage and set them in the todos state
+
+    if (todos.length === 0) {
+      // Its the first time the effect is executing
+      const todosInLocalStorage = localStorage.getItem("todos");
+
+      if (todosInLocalStorage) setTodos(JSON.parse(todosInLocalStorage));
+
+      setLoading(false);
+    } else {
+      // Its not the first time the effect is executing, then update the todos in localStorage
+      localStorage.setItem("todos", JSON.stringify(todos));
+    }
+
+    // If it is not the first time, update the todos in the localStorage
+  }, [todos]);
 
   // Filter tasks to get only the pending ones
   const pendingTodos = todos.filter((todo) => todo.status === "pending");
@@ -66,6 +89,10 @@ const App = () => {
 
   // Assignment (25/03/25):
   // Improve the app to use localStorage for data persistence
+
+  if (loading) {
+    return "Loading...";
+  }
 
   return (
     <main className="flex h-screen justify-center items-center">
@@ -153,6 +180,10 @@ const App = () => {
             )}
           </ol>
         </div>
+
+        <button className="bg-red-700 p-2 rounded text-white w-full cursor-pointer duration-300 hover:bg-red-600">
+          Clear Data
+        </button>
       </div>
     </main>
   );
